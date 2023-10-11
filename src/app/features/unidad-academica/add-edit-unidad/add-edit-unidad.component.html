@@ -1,0 +1,63 @@
+<div class="container">
+    <h2 mat-dialog-title>{{ operacion }} Unidad Academica </h2>
+    <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="addEditUnidad()">
+  
+    <mat-dialog-content >
+  
+      <div class="row">
+        <div class="column">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input formControlName="nombre" matInput placeholder="Ingrese el Nombre del Contenido" autocomplete="off">
+          </mat-form-field>
+          <div class="error">
+            <span *ngIf="form.get('nombre')?.hasError('required') && form.get('dni')?.touched">
+              El Nombre es un campo <strong>requerido</strong>  
+            </span>
+            <span *ngIf="form.get('nombre')?.hasError('maxlength')">
+              El Nombre debe tener como maximo <strong>11 caracteres</strong> 
+            </span>
+          </div>
+        </div>
+    
+        <div class="column">
+          <mat-form-field appearance="fill">
+            <mat-label>Localidad</mat-label>
+            <input formControlName="localidad" matInput placeholder="Ingrese la Localidad " autocomplete="off">
+          </mat-form-field>
+          <div class="error">
+            <span *ngIf="form.get('localidad')?.hasError('required') && form.get('nombre')?.touched">
+              La categoria de la disciplina es un campo <strong>requerido</strong>  
+            </span>
+          </div>
+
+          
+        </div>
+
+        <div class="column">
+            <mat-form-field appearance="fill">
+              <mat-label>Siglas</mat-label>
+              <input formControlName="siglas" matInput placeholder="Ingrese las siglas " autocomplete="off">
+            </mat-form-field>
+            <div class="error">
+              <span *ngIf="form.get('siglas')?.hasError('required') && form.get('nombre')?.touched">
+                La categoria de la disciplina es un campo <strong>requerido</strong>  
+              </span>
+            </div>
+  
+            
+          </div>
+      </div>
+    
+    
+    
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button type="button" (click)="cancelar()" mat-button>Cancelar</button>
+      <button type="submit" mat-button cdkFocusInitial>Aceptar</button>
+    </mat-dialog-actions>
+    
+  </form>
