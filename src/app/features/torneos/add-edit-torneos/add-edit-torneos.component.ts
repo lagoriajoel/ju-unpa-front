@@ -9,6 +9,16 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { disciplina } from 'src/app/core/Entities/disciplina';
+import { disciplinaService } from 'src/app/core/services/disciplina.service';
+import { equipo } from 'src/app/core/Entities/equipo';
+import { equipoService } from 'src/app/core/services/equipo.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { torneo } from 'src/app/core/Entities/torneo';
+import { torneoService } from 'src/app/core/services/torneo.Service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -22,6 +32,9 @@ export class AddEditTorneosComponent implements OnInit {
   filteredFruits: Observable<string[]>;
   fruits: string[] = ['Lemon'];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  disciplinaSlected!: disciplina;
+  disciplinas: disciplina[] = [];
+  equipos: equipo[] = [];
 
   @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
 
@@ -29,15 +42,29 @@ export class AddEditTorneosComponent implements OnInit {
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
+    disciplina: ['', Validators.required],
+
+    
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
+    equipos: ['', Validators.required],
   });
   
 
-  constructor(private _formBuilder: FormBuilder) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
+  constructor(
+    public dialogRef: MatDialogRef<AddEditTorneosComponent>,
+    private _formBuilder: FormBuilder,
+    private disciplinaService:disciplinaService,
+    private equipoService:equipoService,
+    private notificationService:NotificationService,
+    private torneoService:torneoService,
+    private _snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+      this.cargarDisciplina()
+      this.cargarEquipos()
+      this.filteredFruits = this.fruitCtrl.valueChanges.pipe(startWith(null),
       map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
     );
   }
@@ -47,6 +74,36 @@ export class AddEditTorneosComponent implements OnInit {
 
  ngOnInit(): void {
    
+ }
+cargarEquipos(): void {
+  this.equipoService.lista().subscribe({
+    next: data=>{
+      this.equipos=data
+      console.log(data);
+    }
+  })
+}
+ cargarDisciplina(): void {
+  this.disciplinaService.lista().subscribe({
+    next: data=>{
+      this.disciplinas=data
+    }
+  })
+ }
+
+ cargarEquiposPorDisciplina(id:number): void {
+
+  this.disciplinaSlected= this.disciplinas.find(d=>d.id==id)!;
+  console.log(this.disciplinaSlected);
+  this.equipoService.listaPorDisciplina(id).subscribe({
+    next: data=>{
+      this.equipos=data
+      console.log(data);
+    },
+    error: error=>{
+      this.notificationService.openSnackBar(error.error.Mensaje); 
+    }
+  })
  }
  add(event: MatChipInputEvent): void {
   const value = (event.value || '').trim();
@@ -82,5 +139,36 @@ private _filter(value: string): string[] {
   const filterValue = value.toLowerCase();
 
   return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+}
+
+ cancelar() {
+  this.dialogRef.close();
+ }
+ crearTorneo(){
+
+
+  const torneo: torneo= {
+    tipo: "round robin",
+    nombre: "CAMPEONATO DE "+ this.disciplinaSlected.nombre,
+    numTeams: this.equipos.length
+  }
+
+  this.torneoService.save(torneo).subscribe({
+    next: data=>{
+           this.torneoService.addEquipos(this.equipos, data.id)
+           this.mensajeExito('agregado');
+           this.dialogRef.close(true)
+    },
+    error: error=>{
+      this.notificationService.openSnackBar(error.error.Mensaje)
+    }
+  })
+
+ }
+
+ mensajeExito(operacion: string) {
+  this._snackBar.open(`El curso fue ${operacion} con exito`, '', {
+    duration: 2000
+  });
 }
 }

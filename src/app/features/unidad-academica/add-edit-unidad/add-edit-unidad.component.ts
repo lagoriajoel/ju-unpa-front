@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { unidadAcademicaDTO } from 'src/app/core/Entities/dto/unidadAcademicaDTO';
 import { unidadAcademica } from 'src/app/core/Entities/unidadAcademica';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { unidadAcademicaService } from 'src/app/core/services/unidadAcademica.service';
@@ -83,7 +84,7 @@ export class AddEditUnidadComponent implements OnInit {
     }
    
 
-    const unidad: unidadAcademica = {
+    const unidad: unidadAcademicaDTO = {
       
       nombre: this.form.value.nombre,
       localidad: this.form.value.localidad,

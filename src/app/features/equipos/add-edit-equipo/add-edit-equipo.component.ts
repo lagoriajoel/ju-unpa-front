@@ -3,37 +3,65 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { disciplina } from 'src/app/core/Entities/disciplina';
+import { disciplinaIdDTO } from 'src/app/core/Entities/dto/disciplinaIdDTO';
+import { equipoDTO } from 'src/app/core/Entities/dto/equipoDTO';
+import { unidadAcademicaDTO } from 'src/app/core/Entities/dto/unidadAcademicaDTO';
+import { unidadIdDTO } from 'src/app/core/Entities/dto/unidadIdDTO';
+import { equipo } from 'src/app/core/Entities/equipo';
 import { disciplinaService } from 'src/app/core/services/disciplina.service';
+import { equipoService } from 'src/app/core/services/equipo.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
+export interface categoria {
+  value: string;
+  viewValue: string;
+}
 @Component({
-  selector: 'app-add-edit-disciplina',
-  templateUrl: './add-edit-disciplina.component.html',
-  styleUrls: ['./add-edit-disciplina.component.css']
+  selector: 'app-add-edit-equipo',
+  templateUrl: './add-edit-equipo.component.html',
+  styleUrls: ['./add-edit-equipo.component.css']
 })
-export class AddEditDisciplinaComponent implements OnInit {
-  form: FormGroup;
+export class AddEditEquipoComponent implements OnInit {
 
+  form: FormGroup;
+  idDisciplina!:number
+  idUnidad!:number
   loading: boolean = false;
+  siglas:string = "";
   operacion: string = "Agregar ";
   id: number | undefined;
-  
+  disciplinas: disciplina[] = [];
+  categoria: categoria[] = [
+    {value: 'masculino', viewValue: 'MASCULINO'},
+    {value: 'femenino', viewValue: 'FEMENINO'},
+    {value: 'mixto', viewValue: 'MIXTO'},
+  ];
 
   constructor(
-    public dialogRef: MatDialogRef<AddEditDisciplinaComponent>,
+    public dialogRef: MatDialogRef<AddEditEquipoComponent>,
     private fb: FormBuilder,
     private notificationService: NotificationService,
    private disciplineService: disciplinaService,
+   private equipoService: equipoService,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.listarDisciplinas()
     this.form = this.fb.group({
-      nombre: ["", [Validators.required, Validators.maxLength(100)]],
-      categoria: ["", [Validators.required]],
+      disciplina: ["", [Validators.required]],
+     
     });
 
-    this.id = data.id;
-    console.log(this.id);
+    this.idUnidad = data.idUnidadAcademica;
+    this.siglas =data.siglas;
+    console.log(this.idUnidad);
+  }
+  listarDisciplinas():void{
+    this.disciplineService.lista().subscribe({
+      next:data=>{
+        this.disciplinas=data
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -43,12 +71,12 @@ export class AddEditDisciplinaComponent implements OnInit {
   esEditar(id: number | undefined) {
     if (id !== undefined) {
       this.operacion = "Editar ";
-      this.getDisciplina(id);
+      this.getEquipo(id);
       
     }
   }
 
-  getDisciplina(id: number) {
+  getEquipo(id: number) {
         
    this.disciplineService.detail(id).subscribe({ 
     next: data=>{  
@@ -73,23 +101,35 @@ export class AddEditDisciplinaComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  addEditContenido() {
+  addEditEquipo() {
     if (this.form.invalid) {
       return;
     }
-   
+   const disciplina: disciplinaIdDTO = {
+    id: this.form.value.disciplina,
+   }
+   const unidadAcademica: unidadIdDTO = {
+    id: this.idUnidad
+   }
 
-    const disciplina: disciplina = {
-      id:0,
-      nombre: this.form.value.nombre,
-      categoria: this.form.value.categoria,
-     
+    const equipo: equipoDTO= {
+      
+      nombre: this.siglas,
+      sport:disciplina,
+      unidadAcademica: unidadAcademica,
+      matchWon:0,
+      matchLost:0,
+      matchTied:0,
+      goalFor:0,
+      goalAgainst:0,
+      point:0,
+      tourment: null,
     };
-
+       console.log(equipo);
     this.loading = true;
     if (this.id == undefined) {
       // Es agregar
-      this.disciplineService.save(disciplina).subscribe(
+      this.equipoService.save(equipo).subscribe(
         {
           next: () => {
         this.mensajeExito("agregado");
@@ -102,7 +142,7 @@ export class AddEditDisciplinaComponent implements OnInit {
       );
     } else {
       // Es editar
-      this.disciplineService.update(this.id, disciplina).subscribe((data) => {
+      this.equipoService.update(this.id, equipo).subscribe((data) => {
         this.mensajeExito("actualizado");
         this.dialogRef.close(true);
       });

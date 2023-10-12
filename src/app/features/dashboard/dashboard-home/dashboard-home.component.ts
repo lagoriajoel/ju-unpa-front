@@ -27,11 +27,11 @@ export class DashboardHomeComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser();
-    this.titleService.setTitle('angular-material-template - Dashboard');
-    this.logger.log('Dashboard loaded');
+  
+   
 
     setTimeout(() => {
-      this.notificationService.openSnackBar('Welcome!');
+      this.notificationService.openSnackBar('Bienvenidos!');
     });
   }
 

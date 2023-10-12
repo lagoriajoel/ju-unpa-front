@@ -1,54 +1,54 @@
 <mat-stepper #stepper>
-  <mat-step [stepControl]="firstFormGroup" errorMessage="Name is required.">
+  <mat-step [stepControl]="firstFormGroup" errorMessage="La Disciplina es requerida !.">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your name</ng-template>
+      <ng-template matStepLabel>Elija la Disciplina para el Torneo</ng-template>
       <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        <mat-select formControlName="disciplina"  (selectionChange)="cargarEquiposPorDisciplina($event.value)" >
+          <mat-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id"  >
+            {{disciplina.nombre}} {{disciplina.categoria}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       <div>
-        <p>Go to a different step to see the error state</p>
-        <button mat-button matStepperNext>Next</button>
+     
+        <button mat-button matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
+  <mat-step [stepControl]="secondFormGroup" errorMessage="Los Equipos son requeridos!.">
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
-      <mat-form-field>
+      <ng-template matStepLabel>Elija los Equipos</ng-template>
+ <mat-form-field>
       
-<mat-chip-list #chipGrid aria-label="Fruit selection">
-  <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
-    {{fruit}}
-    <button matChipRemove [attr.aria-label]="'remove ' + fruit">
-      <mat-icon>cancel</mat-icon>
-    </button>
-  </mat-chip>
-</mat-chip-list>
-<input placeholder="New Fruit..." #fruitInput [formControl]="fruitCtrl"
-  [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
-  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-  (matChipInputTokenEnd)="add($event)"/>
-<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-  <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-    {{fruit}}
-  </mat-option>
-</mat-autocomplete>
+          <mat-chip-list #chipGrid aria-label="Fruit selection">
+            <mat-chip *ngFor="let equipo of equipos" (removed)="remove(equipo.nombre)">
+              {{equipo.nombre.toUpperCase()}}
+              <button matChipRemove [attr.aria-label]="'remove ' + equipo">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-list>
 
-      </mat-form-field>
+       
+  
+  
+</mat-form-field>
+
       <div>
-        <p>Go to a different step to see the error state</p>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+     
+        <button mat-button matStepperPrevious>Atras</button>
+        <button mat-button matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
+    <ng-template matStepLabel>Confirmar</ng-template>
+    <p>confirmar para terminar.</p>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button matStepperPrevious>Atras</button>
+      <button mat-button (click)="cancelar()">Cancelar</button>
+      <button mat-button (click)="crearTorneo()">Crear Torneo</button>
+
     </div>
   </mat-step>
 </mat-stepper>

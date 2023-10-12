@@ -4,6 +4,7 @@ import { environment } from "src/environments/environment";
 import { disciplina } from "../Entities/disciplina";
 import { Observable } from "rxjs";
 import { unidadAcademica } from "../Entities/unidadAcademica";
+import { unidadAcademicaDTO } from "../Entities/dto/unidadAcademicaDTO";
 
 
 
@@ -27,11 +28,11 @@ import { unidadAcademica } from "../Entities/unidadAcademica";
     }
   
    
-    public save(disciplina: unidadAcademica): Observable<any> {
+    public save(disciplina: unidadAcademicaDTO): Observable<any> {
       return this.httpClient.post<any>(this.ContenidoURL + 'save', disciplina);
     }
   
-    public update(id: number, disciplina: unidadAcademica): Observable<any> {
+    public update(id: number, disciplina: unidadAcademicaDTO): Observable<any> {
       return this.httpClient.put<any>(this.ContenidoURL + `update/${id}`, disciplina);
     }
   
