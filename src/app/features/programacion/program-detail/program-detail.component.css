@@ -1,0 +1,21 @@
+.fecha {
+   margin-top: 10px;
+   display: grid;
+   width: 100%;
+}
+
+.fechas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+}
+.games {
+    display: grid;
+
+}
+.partidos {
+    background-color:azure;
+    margin-top: 10px;
+    height: 150px;
+}

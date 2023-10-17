@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
 import { DisciplinasListComponent } from './disciplinas-list/disciplinas-list.component';
 import { FixtureComponent } from './fixture/fixture.component';
-import { ClasificacionComponent } from './clasificacion/clasificacion.component';
+
 import { AddEditDisciplinaComponent } from './add-edit-disciplina/add-edit-disciplina.component';
 
 const routes: Routes = [
@@ -13,8 +13,8 @@ const routes: Routes = [
     children: [
       { path: '', component: DisciplinasListComponent },
       { path: 'fixture', component: FixtureComponent },
-      { path: 'clasificacion', component: ClasificacionComponent },
      
+
 
 
 

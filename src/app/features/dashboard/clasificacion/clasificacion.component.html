@@ -1,0 +1,47 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+  
+      <mat-card>
+        <mat-card-content>
+          <h2>Tabla de Posiciones: {{NombreDeporte}}  {{categoriaDeporte}}</h2>
+  
+          <table mat-table [dataSource]="dataSource" matSort>
+  
+            <!-- Position Column -->
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="pg">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PG </th>
+              <td mat-cell *matCellDef="let element"> {{element.matchWon}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="pp">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PP </th>
+              <td mat-cell *matCellDef="let element"> {{element.matchLost}} </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="pe">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PE </th>
+              <td mat-cell *matCellDef="let element"> {{element.matchTied}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="puntos">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Puntos </th>
+              <td mat-cell *matCellDef="let element"> {{element.point}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+        </mat-card-content>
+      </mat-card>
+  
+    </div>
+  </div>

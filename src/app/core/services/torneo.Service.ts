@@ -4,6 +4,8 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { torneo } from "../Entities/torneo";
 import { equipo } from "../Entities/equipo";
+import { torneoDTO } from "../Entities/dto/torneoDTO";
+import { equipoDTO } from "../Entities/dto/equipoDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -25,10 +27,10 @@ import { equipo } from "../Entities/equipo";
     }
   
    
-    public save(disciplina: torneo): Observable<any> {
+    public save(disciplina: torneoDTO): Observable<any> {
       return this.httpClient.post<any>(this.ContenidoURL + 'save', disciplina);
     }
-    public addEquipos(equipos: equipo[], idTorneo: number): Observable<any> {
+    public addEquipos(equipos: equipoDTO[], idTorneo: number): Observable<any> {
       return this.httpClient.post<any>(this.ContenidoURL + `addTeams/${idTorneo}`, equipos);
     }
   

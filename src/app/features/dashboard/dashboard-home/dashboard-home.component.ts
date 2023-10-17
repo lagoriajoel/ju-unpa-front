@@ -46,10 +46,10 @@ export class DashboardHomeComponent implements OnInit {
   toFixture(): void {
     this.router.navigate(['disciplinas/fixture'])
 }
-toClasification(name:string): void {
-this.router.navigate(['customers'], {
+toClasification(id: number): void {
+this.router.navigate(['dashboard/clasificacion'], {
     queryParams: {
-      disciplina: name
+      id: id,
     }
 });
 }

@@ -1,1 +1,86 @@
-<p>program-detail works!</p>
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+
+     <div class="title">
+      <h3> {{nombreTorneo}}</h3>
+     </div>
+
+        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+            <div  fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let item of equipos">
+                   <div class="equipos">
+                       <mat-card style="text-align: center;">
+                           <mat-card-content>
+                            {{item.nombre.toUpperCase()}}
+                           </mat-card-content>
+                       </mat-card>
+                   </div>
+               
+             
+
+
+        </div>
+
+        
+     <mat-divider></mat-divider>
+
+      <div class="fechas">
+            <div class="fecha">
+                 <h3>Fechas</h3>
+          
+            </div>
+           <mat-divider></mat-divider>
+          
+               
+           
+           <div fxFlex.xs="100%" *ngFor="let item of fechas">
+             
+                    
+                           <mat-card style="text-align: center;">
+                                <mat-card-header>
+                                  {{item.description}}
+                                  <mat-divider></mat-divider>
+                                </mat-card-header>
+                                <mat-card-content>
+
+                                    <div  *ngFor="let item of item.games">
+                                        <mat-card class="partidos">
+                                           
+                                                <mat-card-title> {{item.team_1.nombre}} {{item.score_1}}  vs  {{item.score_2}} {{item.team_2.nombre}}</mat-card-title>
+                                                <mat-card-subtitle>  Fecha:{{item.fecha}}</mat-card-subtitle>
+                                                <mat-card-subtitle>  Lugar:{{item.lugar}}</mat-card-subtitle>
+                                                <mat-card-subtitle>    Horario:{{item.horario}}</mat-card-subtitle>
+                                                
+                                          
+                                         
+                                          
+                                                <button mat-button (click)="EditGame(item.id)">Editar</button>
+                                                <button mat-button (click)="EditResultGame(item.id)">Editar Resultado</button>
+
+                                         
+                                        </mat-card>
+                                         
+                                    </div>
+                                            
+                               
+
+                                            
+                                             
+                                </mat-card-content>
+                               
+                            </mat-card>
+                               
+                        
+                     
+                   
+                </div>
+    
+    
+          
+    
+          
+        </div>
+
+
+    
+
+</div> 

@@ -38,7 +38,9 @@ export class EquiposListComponent implements OnInit {
         this.route.queryParamMap.subscribe((params) => {
           this.idUnidadAcademica = Number(params.get("unidad_id"))
           this.siglas = (params.get("siglas"))!
-          this.titulo=this.siglas.toUpperCase()
+          setTimeout(() => {
+            this.titulo=this.siglas.toUpperCase()
+          }, 5);
           console.log(this.siglas);
         })
        

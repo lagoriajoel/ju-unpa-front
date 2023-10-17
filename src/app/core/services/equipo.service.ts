@@ -23,6 +23,9 @@ import { equipoDTO } from "../Entities/dto/equipoDTO";
     public listaPorDisciplina(id:Number): Observable<equipo[]> {
       return this.httpClient.get<equipo[]>(this.ContenidoURL + `listOfSport/${id}`);
     }
+    public listaPorTorneo(id:Number): Observable<equipo[]> {
+      return this.httpClient.get<equipo[]>(this.ContenidoURL + `listOfTourment/${id}`);
+    }
  
   
     public detail(id: number): Observable<equipo> {

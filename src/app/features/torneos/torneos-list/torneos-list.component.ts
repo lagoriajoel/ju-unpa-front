@@ -40,6 +40,9 @@ export class TorneosListComponent implements OnInit {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+      },
+      error:error=>{
+        console.log(error);
       }
     })
   }
@@ -49,6 +52,7 @@ export class TorneosListComponent implements OnInit {
   toFixture(): void {
         this.router.navigate(['disciplinas/fixture'])
   }
+
   toClasification(name:string): void {
     this.router.navigate(['customers'], {
         queryParams: {
@@ -108,5 +112,14 @@ export class TorneosListComponent implements OnInit {
   
     });
     this.loading = true;
+  }
+
+  irAprogramacion(torneo:torneo): void {
+    console.log(torneo);
+       this.router.navigate(["/programa"], { 
+        queryParams:{
+          torneo_id: torneo.id
+        }
+      })
   }
   }

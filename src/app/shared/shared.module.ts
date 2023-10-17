@@ -15,8 +15,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
-
-
+import { MatNativeDateTimeModule, MatTimepickerModule } from "@dhutaryan/ngx-mat-timepicker";
 
 @NgModule({
     imports: [
@@ -30,6 +29,8 @@ import { AsyncPipe } from '@angular/common';
         MatIconModule,
         MatAutocompleteModule,
         AsyncPipe,
+        MatTimepickerModule,
+        MatNativeDateTimeModule
        
    
         
@@ -58,6 +59,8 @@ import { AsyncPipe } from '@angular/common';
         MatIconModule,
         MatAutocompleteModule,
         AsyncPipe,
+        MatTimepickerModule,
+        MatNativeDateTimeModule
       
     ]
 })

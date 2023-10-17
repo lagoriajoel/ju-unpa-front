@@ -1,0 +1,12 @@
+@use "@dhutaryan/ngx-mat-timepicker" as mat-timepicker;
+
+// timepicker uses these component
+@include mat.form-field-theme(theme.$ngx-mat-timepicker-theme);
+@include mat.input-theme(theme.$ngx-mat-timepicker-theme);
+@include mat.button-theme(theme.$ngx-mat-timepicker-theme);
+@include mat.fab-theme(theme.$ngx-mat-timepicker-theme);
+@include mat.icon-button-theme(theme.$ngx-mat-timepicker-theme);
+@include mat.divider-theme(theme.$ngx-mat-timepicker-theme);
+
+// timepicker theme
+@include mat-timepicker.timepicker-theme($theme);
